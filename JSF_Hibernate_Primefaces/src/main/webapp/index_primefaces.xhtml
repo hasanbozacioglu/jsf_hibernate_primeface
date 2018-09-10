@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+
+<h:body>
+    <div class="ui-md-8" style="margin-top: 100px;margin-left: auto;margin-right: auto">
+        <h:form id="form">
+
+            <h:panelGrid id="gridEmployee" cellpadding="5" columns="2" style="margin-bottom:10px">
+                <f:facet name="header">
+                    <p:messages id="msgs2"/>
+                </f:facet>
+                <p:outputLabel value="Name : "/>
+                <p:inputText value="#{employeeController.name}"/>
+
+                <p:outputLabel value="Surname : "/>
+                <p:inputText value="#{employeeController.surname}"/>
+
+                <p:outputLabel value="Salary : "/>
+                <p:inputText value="#{employeeController.salary}"/>
+
+                <p:inputText type="hidden" value="#{employeeController.id}"/>
+            </h:panelGrid>
+
+            <h:panelGrid columns="6" cellpadding="5">
+                <p:commandButton value="Clear" action="#{employeeController.clearForm}" update=":form:gridEmployee"/>
+                <p:commandButton value="Create/Update" action="#{employeeController.addEmployee}" update="checkboxDT"/>
+                <p:commandButton value="All Selected Delete" action="#{employeeController.deleteSelectedEmployees}"
+                                 update="checkboxDT"/>
+            </h:panelGrid>
+            <p:growl id="msgs" showDetail="true"/>
+            <p:dataTable id="checkboxDT" var="employee" value="#{employeeController.employees}"
+                         selection="#{employeeController.selectedEmployees}" rowKey="#{employee.id}"
+                         style="margin-bottom:0">
+                <f:facet name="header">
+                    <div style="float: left"><h3>Employe CRUD</h3></div>
+                    <div style="clear: left"/>
+                </f:facet>
+                <p:column selectionMode="multiple" style="width:16px"/>
+                <p:column headerText="Id" style="text-align: left">
+                    <h:outputText value="#{employee.id}"/>
+                </p:column>
+                <p:column headerText="Name" style="text-align: left">
+                    <h:outputText value="#{employee.name}"/>
+                </p:column>
+                <p:column headerText="Surname" style="text-align: left">
+                    <h:outputText value="#{employee.surname}"/>
+                </p:column>
+                <p:column headerText="Salary" style="text-align: left">
+                    <h:outputText value="#{employee.salary}"/>
+                </p:column>
+                <p:column headerText="Action" style="text-align: left">
+                    <p:commandButton value="Select to Update" action="#{employeeController.selectedEmployee(employee.id)}"
+                                     update=":form:gridEmployee"/>
+                </p:column>
+                <f:facet name="footer">
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+    </div>
+</h:body>
+</html>
+
